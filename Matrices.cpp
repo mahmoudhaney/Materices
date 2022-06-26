@@ -21,7 +21,6 @@ int minu()
 
 void read_matrix(vector<vector<int>> &v, int rows, int columns)
 {
-    
     for (int row = 0; row < rows; row++)
     {
         for (int col = 0; col < columns; col++)
@@ -45,38 +44,21 @@ void print_matrix(vector<vector<int>>& v, int rows, int columns)
 
 void calculate(vector<vector<int>>& v1, int r1, int c1, vector<vector<int>>& v2, int r2, int c2)
 {
-    if (c1 == r2)
+    vector<vector<int>> res(r1, vector<int>(c2));
+    for (int row = 0; row < r1; row++)
     {
-        
-        vector<vector<int>> res(r1, vector<int>(c2));
-        for (int row = 0; row < r1; row++)
+        for (int col = 0; col < c2; col++)
         {
-            for (int col = 0; col < c2; col++)
-            {
-                
-                //for (int k = 0; k < c1; ++k){
-                int k = 0;
-                while(k < c1){
-                    cout << row << k << " * " << k <<row << " || ";
-                    res[row][col] += v1[row][k] * v2[k][row];
-                    ++k;
-                }
-                
-                cout << res[row][col] << "  ";
-                cout << "End 1 " << endl;
+            int k = 0;
+            while (k < c1) {
+                res[row][col] += v1[row][k] * v2[k][col];
+                ++k;
             }
         }
-        cout << "\nThe Result: \n";
-        
-        print_matrix(v1, r1, c1); cout << endl;
-        print_matrix(v2, r2, c2); cout << endl;
-        print_matrix(res, r1, c2);
-        
     }
-    else
-    {
-        cout << "Error: These two Matrices Can't be Multiplied\n";
-    }
+    cout << "\nThe Result: \n";
+    print_matrix(res, r1, c2);
+    cout << "==================================" << endl;
 }
 
 void multiply()
@@ -85,18 +67,31 @@ void multiply()
     int rows1, columns1;
     cout << "Num of Rows: "; cin >> rows1;
     cout << "Num of Columns: "; cin >> columns1;
-    vector<vector<int>> v1(rows1, vector<int>(columns1));
-    read_matrix(v1, rows1, columns1);
-
-    cout << "================\Second Matrix:" << endl;
+    
+    cout << "================\nSecond Matrix:" << endl;
     int rows2, columns2;
     cout << "Num of Rows: "; cin >> rows2;
     cout << "Num of Columns: "; cin >> columns2;
-    vector<vector<int>> v2(rows2, vector<int>(columns2));
-    read_matrix(v2, rows2, columns2);
 
-    //Final Result
-    calculate(v1, rows1, columns1, v2, rows2, columns2);
+    //Cheching if we can multiply them
+    if (columns1 == rows2)
+    {
+        vector<vector<int>> v1(rows1, vector<int>(columns1));
+        cout << "First Matrix Elements: \n";
+        read_matrix(v1, rows1, columns1);
+
+        vector<vector<int>> v2(rows2, vector<int>(columns2));
+        cout << "Second Matrix Elements: \n";
+        read_matrix(v2, rows2, columns2);
+
+        //Final Result
+        calculate(v1, rows1, columns1, v2, rows2, columns2);
+    }
+    else
+    {
+        cout << "Error: These two Matrices Can't be Multiplied\n";
+        cout << "==================================" << endl;
+    }
 
 }
 
@@ -108,7 +103,10 @@ void user()
         if (choice == 1)
             multiply();
         else
+        {
+            cout << "Goodbye" << endl;
             break;
+        }
     }
     
 }
